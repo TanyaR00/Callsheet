@@ -74,7 +74,7 @@ def build_callsheet_agent() -> Agent:
     ]
 
     agent = Agent(
-        model="gemini-2.5-pro",
+        model="gemini-3.6-pro",
         tools=tools,
         system_instruction=system_instruction
     )

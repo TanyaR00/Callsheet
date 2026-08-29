@@ -60,12 +60,21 @@ class SceneRiskScorer:
         - Overall Risk Score: {features['risk_score']} / 10.0
         """
         
-        response = self.client.models.generate_content(
-            model='gemini-2.5-flash',
-            contents=prompt,
-            config={
-                'response_mime_type': 'application/json',
-                'response_schema': RiskRationale,
-            }
-        )
-        return RiskRationale.model_validate_json(response.text)
+        try:
+            response = self.client.models.generate_content(
+                model='gemini-3.6-flash',
+                contents=prompt,
+                config={
+                    'response_mime_type': 'application/json',
+                    'response_schema': RiskRationale,
+                }
+            )
+            return RiskRationale.model_validate_json(response.text)
+        except Exception as e:
+            print(f"        -> [WARNING] Gemini API error ({e}). Using fallback rationale.")
+            level = "HIGH" if features['risk_score'] >= 5.0 else ("MEDIUM" if features['risk_score'] >= 3.0 else "LOW")
+            return RiskRationale(
+                risk_level=level,
+                primary_cost_driver="Unspecified (API Overloaded)",
+                rationale="Fallback rationale generated due to temporary upstream API unavailability."
+            )

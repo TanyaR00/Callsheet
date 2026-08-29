@@ -50,7 +50,7 @@ Speaker 2: Understood. Let's make sure we pad the schedule appropriately.
     client = genai.Client()
     
     response = client.models.generate_content(
-        model='gemini-2.5-flash', # Using flash model with audio output assumption
+        model='gemini-3.6-flash', # Using flash model with audio output assumption
         contents=script,
     )
     

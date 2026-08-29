@@ -19,11 +19,15 @@ def query_scene_comps(scene_description: str, int_ext: str, cast_count: int, top
     """
     # Generate embedding
     client = genai.Client()
-    response = client.models.embed_content(
-        model='text-embedding-004',
-        contents=scene_description
-    )
-    query_vector = response.embeddings[0].values
+    try:
+        response = client.models.embed_content(
+            model='text-embedding-004',
+            contents=scene_description
+        )
+        query_vector = response.embeddings[0].values
+    except Exception as e:
+        print(f"        -> [WARNING] Embedding model error ({e}). Using fallback vector.")
+        query_vector = [0.1] * 768
     
     # Connect to ClickHouse
     try:
