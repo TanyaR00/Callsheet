@@ -40,13 +40,13 @@ def query_scene_comps_tool(scene_description: str, int_ext: str, cast_count: int
     """Finds historical scene cost comps using ClickHouse vector similarity."""
     return query_scene_comps(scene_description, int_ext, cast_count)
 
-def generate_scene_storyboard_tool(scene_heading: str, action_summary: str, risk_driver: str) -> str:
+def generate_scene_storyboard_tool(scene_heading: str, action_summary: str, risk_driver: str, output_dir: str = "artifacts/storyboards") -> str:
     """Generates a visual storyboard frame for high-risk scenes. Returns the file path."""
-    return generate_scene_storyboard(scene_heading, action_summary, risk_driver)
+    return generate_scene_storyboard(scene_heading, action_summary, risk_driver, output_dir=output_dir)
 
-def generate_executive_briefing_audio_tool(risk_data: Dict[str, Any], cost_comps: Dict[str, Any]) -> str:
+def generate_executive_briefing_audio_tool(risk_data: Dict[str, Any], cost_comps: Dict[str, Any], output_dir: str = "artifacts/audio") -> str:
     """Generates a multi-speaker executive audio briefing discussing scheduling and budget risk. Returns the file path."""
-    return generate_executive_briefing_audio(risk_data, cost_comps)
+    return generate_executive_briefing_audio(risk_data, cost_comps, output_dir=output_dir)
 
 def build_callsheet_agent() -> Agent:
     """Initializes and returns the ADK Agent with strict autonomous reasoning instructions."""
